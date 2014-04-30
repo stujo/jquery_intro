@@ -7,8 +7,13 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<%= render :partial => 'layouts/navbar' %>
 
+<p id="notice"><%= notice %></p>
+
+<div class="container">
 <%= yield %>
+</div>
 
 </body>
 </html>

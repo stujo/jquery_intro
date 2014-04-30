@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-xs-2">
+    Chapter:&nbsp;<%= link_to @chapter.name, @chapter %>
+  </div>
+  <div class="col-xs-10">
+    <h1><%= @example.name %></h1>
+    <%= content_tag :div, class: "description" do
+      @example.description
+    end if @example.description %>
+  </div>
+</div>
+
+<%= content_tag :script, class: "example_script_code" do
+  render "examples/template/#{@example.template_name}.js"
+end if @example.template_name %>
+
+<h3>Example</h3>
+<%= content_tag :div, class: "example_content" do
+  render "examples/template/#{@example.template_name}_content"
+end if @example.template_name %>
+
+<h3>Code Sample</h3>
+<%= content_tag :pre, class: "example_script_preview" do
+  render "examples/template/#{@example.template_name}.js"
+end if @example.template_name %>

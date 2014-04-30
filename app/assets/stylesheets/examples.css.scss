@@ -1,3 +1,19 @@
 // Place all the styles related to the examples controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.example_content
+{
+  margin: 5px;
+  border: 2px solid lightblue;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.example_script_preview
+{
+  margin: 5px;
+  border: 2px solid lightgray;
+  padding: 5px;
+}

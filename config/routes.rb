@@ -3,7 +3,7 @@ JqueryIntro::Application.routes.draw do
   root to: "chapters#index"
 
   resources :chapters do
-    get 'example/:id', to: "example#show"
+    resources :examples, only: [:show, :create]
   end
 
 

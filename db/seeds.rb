@@ -5,3 +5,25 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+def seeder model, key, data
+  item = model.where({key => data[key]}).first
+  if item.nil?
+    puts "Seeding #{model.name} #{data[key]}"
+    item = model.create(data)
+  end
+end
+
+intro = seeder Chapter, :name,  {number: 1, name: 'Introduction'}
+rwexamples = seeder Chapter, :name,  {number: 2, name: 'Real World Examples'}
+
+
+password_strength = seeder Example, :name,  {number: 1, name: 'Password Strength', chapter: rwexamples}
+carousel = seeder Example, :name,  {number: 2, name: 'Carousel', chapter: rwexamples}
+
+
+
+
+
+
+

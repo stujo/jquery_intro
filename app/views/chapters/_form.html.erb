@@ -1,25 +1,8 @@
-<%= form_for(@chapter) do |f| %>
-  <% if @chapter.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@chapter.errors.count, "error") %> prohibited this chapter from being saved:</h2>
-
-      <ul>
-      <% @chapter.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= simple_form_for(@chapter, wrapper: :bootstrap3_horizontal, defaults: {right_column_html: {class: "col-lg-3 col-md-3"},
+                                                                          label_html: {class: "col-lg-2 col-md-2"}}, html: {class: "form-horizontal", role: "form"}) do |f| %>
+    <div class="form-group">
+      <%= f.input :name %>
+      <%= f.input :number %>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :number %><br>
-    <%= f.number_field :number %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <%= f.submit "Save", :class => "btn" %>
 <% end %>

@@ -1,14 +1,18 @@
-<p id="notice"><%= notice %></p>
+<h1><%= @chapter.number %>) <%= @chapter.name %></h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @chapter.name %>
-</p>
+<ol>
+<%= render @chapter.examples %>
+</ol>
 
-<p>
-  <strong>Number:</strong>
-  <%= @chapter.number %>
-</p>
 
-<%= link_to 'Edit', edit_chapter_path(@chapter) %> |
-<%= link_to 'Back', chapters_path %>
+<hr/>
+<%= simple_form_for([@chapter, @chapter.examples.build], wrapper: :bootstrap3_horizontal, defaults: {right_column_html: {class: "col-lg-3 col-md-3"},
+                                                                         label_html: {class: "col-lg-2 col-md-2"}}, html: {class: "form-horizontal", role: "form"}) do |f| %>
+    <div class="form-group">
+      <%= f.input :name %>
+    </div>
+    <%= f.submit "Save", :class => "btn" %>
+<% end %>
+
+<hr/>
+<%= link_to 'Edit Chapter', edit_chapter_path(@chapter) %>

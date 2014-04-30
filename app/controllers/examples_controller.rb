@@ -5,6 +5,12 @@ class ExamplesController < ApplicationController
 
   end
 
+
+  def create
+    chapter.examples.create(example_params)
+    redirect_to chapter
+  end
+
   private
 
   def chapter
@@ -13,7 +19,11 @@ class ExamplesController < ApplicationController
 
   def example
     @example ||= Example.find params[:id]
-    @example = nil if @example.chapter_d != chapter.id
+    @example = nil if @example.chapter_id != chapter.id
+  end
+
+  def example_params
+    params.require(:example).permit(:name)
   end
 
 end

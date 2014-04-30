@@ -1,12 +1,9 @@
 <h1>Listing chapters</h1>
 
-<table>
+<table class="table table-hover">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Number</th>
-      <th></th>
-      <th></th>
+      <th>Chapter</th>
       <th></th>
     </tr>
   </thead>
@@ -14,16 +11,14 @@
   <tbody>
     <% @chapters.each do |chapter| %>
       <tr>
-        <td><%= chapter.name %></td>
-        <td><%= chapter.number %></td>
-        <td><%= link_to 'Show', chapter %></td>
+        <td><%= link_to "#{chapter.number }) #{chapter.name}", chapter %></td>
         <td><%= link_to 'Edit', edit_chapter_path(chapter) %></td>
-        <td><%= link_to 'Destroy', chapter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
+
+<hr/>
 
 <%= link_to 'New Chapter', new_chapter_path %>
