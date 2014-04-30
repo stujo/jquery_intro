@@ -1,4 +1,12 @@
 JqueryIntro::Application.routes.draw do
+
+  root to: "chapters#index"
+
+  resources :chapters do
+    get 'example/:id', to: "example#show"
+  end
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
