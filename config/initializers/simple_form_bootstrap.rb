@@ -64,6 +64,24 @@ SimpleForm.setup do |config|
     b.use :error, wrap_with: { tag: 'span', class: 'help-block has-error' }
   end
 
+
+  config.wrappers :bootstrap3_inline, tag: 'span', class: 'inline-form-group', error_class: 'has-error',
+                  defaults: { input_html: { class: 'default-class '}, wrapper_html: { class: "col-lg-10 col-md-10"} } do |b|
+
+    b.use :html5
+    b.use :min_max
+    b.use :maxlength
+    b.use :placeholder
+
+    b.optional :pattern
+    b.optional :readonly
+
+    b.use :label
+    b.use :input
+    b.use :hint,  wrap_with: { tag: 'span', class: 'help-block' }
+    b.use :error, wrap_with: { tag: 'span', class: 'help-block has-error' }
+  end
+
   config.wrappers :group, tag: 'div', class: "form-group", error_class: 'has-error',
                   defaults: { input_html: { class: 'default-class '} }  do |b|
 

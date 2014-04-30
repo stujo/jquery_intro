@@ -1,18 +1,14 @@
 <h1><%= @chapter.number %>) <%= @chapter.name %></h1>
 
 <ol>
-<%= render @chapter.examples %>
+  <%= render @chapter.examples %>
 </ol>
-
-
-<hr/>
-<%= simple_form_for([@chapter, @chapter.examples.build], wrapper: :bootstrap3_horizontal, defaults: {right_column_html: {class: "col-lg-3 col-md-3"},
-                                                                         label_html: {class: "col-lg-2 col-md-2"}}, html: {class: "form-horizontal", role: "form"}) do |f| %>
-    <div class="form-group">
-      <%= f.input :name %>
-    </div>
-    <%= f.submit "Save", :class => "btn" %>
-<% end %>
 
 <hr/>
 <%= link_to 'Edit Chapter', edit_chapter_path(@chapter) %>
+<hr/>
+<%= simple_form_for([@chapter, @chapter.examples.build], wrapper: :bootstrap3_inline, html: {class: "form-inline", role: "form"}) do |f| %>
+    <%= f.input :name, label: false, placeholder: 'Example Name', inline_label: 'Example Name' %>
+    <%= f.submit "Add", :class => "btn" %>
+<% end %>
+
