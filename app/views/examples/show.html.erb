@@ -1,3 +1,8 @@
+<% content_for :page_assets do %>
+    <%= stylesheet_link_tag 'index', 'custom' %>
+<% end %>
+
+
 <div class="row">
   <div class="col-xs-2">
     Chapter:&nbsp;<%= link_to @chapter.name, @chapter %>
@@ -11,15 +16,15 @@
 </div>
 
 <%= content_tag :script, class: "example_script_code" do
-  render "examples/template/#{@example.template_name}.js"
+  raw File.read(@example.example_js_file_path)
 end if @example.template_name %>
 
 <h3>Example</h3>
-<%= content_tag :div, class: "example_content" do
-  render "examples/template/#{@example.template_name}_content"
+<%=  content_tag :div, class: "example_content" do
+  raw File.read(@example.example_html_file_path)
 end if @example.template_name %>
 
 <h3>Code Sample</h3>
 <%= content_tag :pre, class: "example_script_preview" do
-  render "examples/template/#{@example.template_name}.js"
+  File.read(@example.example_js_file_path)
 end if @example.template_name %>

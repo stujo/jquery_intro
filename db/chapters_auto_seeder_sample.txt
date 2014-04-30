@@ -1,0 +1,6 @@
+seeder Chapter, :name,  {number: 1, name: 'Introduction'}
+seeder Chapter, :name,  {number: 2, name: 'Real World Examples'}
+seeder Chapter, :name,  {number: 1, name: 'Introduction'}
+seeder Chapter, :name,  {number: 2, name: 'Real World Examples'}
+seeder Chapter, :name,  {number: 1, name: 'Introduction'}
+seeder Chapter, :name,  {number: 2, name: 'Real World Examples'}

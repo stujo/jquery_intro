@@ -1,0 +1,9 @@
+seeder Example, :name,  {number: 1, name: 'Password Strength', chapter_id: 2}
+seeder Example, :name,  {number: 2, name: 'Carousel', chapter_id: 2}
+seeder Example, :name,  {number: 1, name: 'Show / Hide', chapter_id: 1}
+seeder Example, :name,  {number: 1, name: 'Password Strength', chapter_id: 2}
+seeder Example, :name,  {number: 2, name: 'Carousel', chapter_id: 2}
+seeder Example, :name,  {number: 1, name: 'Show / Hide', chapter_id: 1}
+seeder Example, :name,  {number: 1, name: 'Password Strength', chapter_id: 2}
+seeder Example, :name,  {number: 2, name: 'Carousel', chapter_id: 2}
+seeder Example, :name,  {number: 1, name: 'Show / Hide', chapter_id: 1}

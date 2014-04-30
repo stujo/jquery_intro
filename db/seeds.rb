@@ -14,16 +14,8 @@ def seeder model, key, data
   end
 end
 
-intro = seeder Chapter, :name,  {number: 1, name: 'Introduction'}
-rwexamples = seeder Chapter, :name,  {number: 2, name: 'Real World Examples'}
+puts "Loading Chapters"
+load File.expand_path(File.dirname(__FILE__) + '/chapters_auto_seeder_sample.txt')
 
-
-password_strength = seeder Example, :name,  {number: 1, name: 'Password Strength', chapter: rwexamples}
-carousel = seeder Example, :name,  {number: 2, name: 'Carousel', chapter: rwexamples}
-
-
-
-
-
-
-
+puts "Loading Examples"
+load File.expand_path(File.dirname(__FILE__) + '/examples_auto_seeder_sample.txt')
