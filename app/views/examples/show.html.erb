@@ -13,9 +13,16 @@ end if @example.template_name %>
   raw File.read(@example.example_html_file_path)
 end if @example.template_name %>
 
-<div class="example_script_container">
-  <h3 class="example_script_header">Code Sample <span class="toggler"></span></h3>
-  <%= content_tag :pre, class: "example_script_preview" do
+<div class="example_sample_container">
+  <h3 class="sample_header">JavaScript Code Sample <span class="toggler"></span></h3>
+  <%= content_tag :pre, class: "example_sample_preview" do
     File.read(@example.example_js_file_path)
+  end %>
+</div>
+
+<div class="example_sample_container">
+  <h3 class="sample_header">HTML Sample <span class="toggler"></span></h3>
+  <%= content_tag :pre, class: "example_sample_preview" do
+    File.read(@example.example_html_file_path)
   end %>
 </div>

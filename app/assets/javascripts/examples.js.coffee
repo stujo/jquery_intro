@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready ->
-  $('.example_script_header').click( ->
+  $('.sample_header').click( ->
     me = $(this)
-    me.parent().toggleClass('show-example')
+    me.parent().toggleClass('show_example')
   )
