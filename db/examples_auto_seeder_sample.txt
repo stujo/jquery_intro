@@ -9,8 +9,8 @@ end
 
 seeder Example, :name,  {:name=>"Password Strength", :number=>1, :description=>nil, :chapter_id=>2} do |example| example.chapter=Chapter.find_by(name: "Real World Examples"); end
 seeder Example, :name,  {:name=>"Carousel", :number=>2, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Real World Examples"); end
-seeder Example, :name,  {:name=>"Show / Hide", :number=>1, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Introduction"); end
-seeder Example, :name,  {:name=>"Toggle", :number=>2, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Introduction"); end
-seeder Example, :name,  {:name=>"Animations", :number=>5, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Introduction"); end
-seeder Example, :name,  {:name=>"Fade In / Out", :number=>3, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Introduction"); end
-seeder Example, :name,  {:name=>"Slide Up / Down", :number=>4, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Introduction"); end
+seeder Example, :name,  {:name=>"Show / Hide", :number=>1, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Effects and Animations"); end
+seeder Example, :name,  {:name=>"Toggle", :number=>2, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Effects and Animations"); end
+seeder Example, :name,  {:name=>"Animations", :number=>5, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Effects and Animations"); end
+seeder Example, :name,  {:name=>"Fade In / Out", :number=>3, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Effects and Animations"); end
+seeder Example, :name,  {:name=>"Slide Up / Down", :number=>4, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Effects and Animations"); end

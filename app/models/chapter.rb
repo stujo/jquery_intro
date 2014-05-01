@@ -14,7 +14,7 @@ class Chapter < ActiveRecord::Base
   def add_to_auto_seed
     File.open(auto_seeder_file, "a") do |file|
 #      file.write("seeder Chapter, :name,  {number: #{self.number}, name: '#{self.name}'}\n")
-      file.write("seeder Chapter, :name,  #{self.attributes.symbolize_keys.slice(:id, :name, :number)}\n")
+      file.write("seeder Chapter, :name,  #{self.attributes.symbolize_keys.slice(:name, :number)}\n")
     end
   end
 

@@ -4,5 +4,6 @@ Chapter.class_eval do
   end
 end
 
-seeder Chapter, :name,  {:id=>1, :name=>"Introduction", :number=>1}
-seeder Chapter, :name,  {:id=>2, :name=>"Real World Examples", :number=>2}
+seeder Chapter, :name,  {name: "Introduction", :number=>1}
+seeder Chapter, :name,  {:name=>"Effects and Animations", :number=>2}
+seeder Chapter, :name,  {:name=>"Real World Examples", :number=>3}
