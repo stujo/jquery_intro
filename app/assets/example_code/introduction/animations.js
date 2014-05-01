@@ -2,16 +2,20 @@
 
 $(document).ready(
   function () {
-    $("button#example-toggler").click(function () {
-      $("div#thing-to-toggle").toggle("slow");
-    });
-
     $("button#example-shower").click(function () {
-      $("div#thing-to-toggle").show("fast");
+      $("img#thing-to-toggle").animate({
+        opacity:'1',
+        height:'400px',
+        width:'400px'
+      });
     });
 
     $("button#example-hider").click(function () {
-      $("div#thing-to-toggle").hide(1000);
+      $("img#thing-to-toggle").animate({
+        opacity:'0.1',
+        height:'100px',
+        width:'250px'
+      });
     });
   });
 
