@@ -1,14 +1,8 @@
-<div class="row">
-  <div class="col-xs-2">
-    Chapter:&nbsp;<%= link_to @chapter.name, @chapter %>
-  </div>
-  <div class="col-xs-10">
-    <h1 class="page-header"><%= @example.name %></h1>
-    <%= content_tag :div, class: "description" do
-      @example.description
-    end if @example.description %>
-  </div>
-</div>
+Chapter:&nbsp;<%= link_to @chapter.name, @chapter %>
+<h1 class="page-header"><%= @example.name %></h1>
+<%= content_tag :div, class: "description" do
+  @example.description
+end if @example.description %>
 
 <%= content_tag :script, class: "example_script_code" do
   raw File.read(@example.example_js_file_path)
