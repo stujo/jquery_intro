@@ -58,4 +58,6 @@ gem "less-rails"
 
 gem "simple_form"
 
+gem 'coderay'
+
 

@@ -15,14 +15,14 @@ end if @example.template_name %>
 
 <div class="example_sample_container">
   <h3 class="sample_header">JavaScript Code Sample <span class="toggler"></span></h3>
-  <%= content_tag :pre, class: "example_sample_preview" do
-    File.read(@example.example_js_file_path)
+  <%= content_tag :div, class: "example_sample_preview" do
+    raw CodeRay.scan( File.read(@example.example_js_file_path), :javascript).div(:line_numbers => :table)
   end %>
 </div>
 
 <div class="example_sample_container">
   <h3 class="sample_header">HTML Sample <span class="toggler"></span></h3>
-  <%= content_tag :pre, class: "example_sample_preview" do
-    File.read(@example.example_html_file_path)
+  <%= content_tag :div, class: "example_sample_preview" do
+    raw CodeRay.scan( File.read(@example.example_html_file_path), :html).div(:line_numbers => :table)
   end %>
 </div>

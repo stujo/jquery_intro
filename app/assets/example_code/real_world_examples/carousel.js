@@ -3,7 +3,13 @@
 
 $(document).ready(
   function () {
-    alert($('#hello').text());
+    $('#my_carousel').slick(
+      {
+        autoplay: true,
+        autoplaySpeed: 1000,
+        speed: 500
+      }
+    );
   }
 );
 

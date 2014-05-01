@@ -1,4 +1,33 @@
 <!-- Example:  carousel -->
 
+<script type="text/javascript" src="/jquery_plugins/slick/slick.js"></script>
 
-<div id="hello">Hello Colt!</div>
+<link rel="stylesheet" type="text/css" href="/jquery_plugins/slick/slick.css">
+
+
+<style>
+    .backdrop {
+        background-color: #666666;
+        padding: 50px;
+    }
+
+    #my_carousel {
+        margin-left: 20%;
+        margin-right: 20%;
+    }
+
+    ul.slick-dots
+    {
+        margin: 0 0 0 0;
+    }
+
+
+</style>
+
+<div class="backdrop">
+    <div id="my_carousel" class="slick_carousel">
+        <div class="car_page"><img src="http://clients.stujophoto.com/photos/i-dX8tJCK/0/S/i-dX8tJCK-S.jpg"></div>
+        <div class="car_page"><img src="http://clients.stujophoto.com/photos/i-FFdvp2Q/3/S/i-FFdvp2Q-S.jpg"></div>
+        <div class="car_page"><img src="http://clients.stujophoto.com/photos/i-cKB9nDX/0/S/i-cKB9nDX-S.jpg"></div>
+    </div>
+</div>
