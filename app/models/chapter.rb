@@ -1,7 +1,7 @@
 class Chapter < ActiveRecord::Base
   has_many :examples
 
-  after_commit :add_to_auto_seeder, on: [:create]
+  after_commit :add_to_auto_seed, on: [:create]
 
 
   default_scope :order => 'number'
@@ -11,9 +11,10 @@ class Chapter < ActiveRecord::Base
   end
 
 
-  def add_to_auto_seeder
+  def add_to_auto_seed
     File.open(auto_seeder_file, "a") do |file|
-      file.write("seeder Chapter, :name,  {number: #{self.number}, name: '#{self.name}'}\n")
+#      file.write("seeder Chapter, :name,  {number: #{self.number}, name: '#{self.name}'}\n")
+      file.write("seeder Chapter, :name,  #{self.attributes.symbolize_keys.slice(:id, :name, :number)}\n")
     end
   end
 

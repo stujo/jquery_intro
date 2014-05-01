@@ -4,6 +4,7 @@ class Example < ActiveRecord::Base
 
   before_save :set_template, :set_number
   after_commit :ensure_templates, on: [:create]
+  after_commit :add_to_auto_seed, on: [:create]
 
 
   def set_number
@@ -39,9 +40,12 @@ class Example < ActiveRecord::Base
     File.open(example_html_file_path, 'w') do |f|
       f.write("<!-- Example:  #{self.name.parameterize} -->")
     end unless File.exist? example_html_file_path
+  end
 
+  def add_to_auto_seed
     File.open(auto_seeder_file, "a") do |file|
-      file.write("seeder Example, :name,  {number: #{self.number}, name: '#{self.name}', chapter_id: #{self.chapter_id}}\n")
+#      file.write("seeder Example, :name,  {number: #{self.number}, name: '#{self.name}', chapter_id: #{self.chapter_id}}\n")
+      file.write("seeder Example, :name,  #{self.attributes.symbolize_keys.slice(:name, :number, :description)} do |example| example.chapter=Chapter.find_by(name: \"#{self.chapter.name}\"); end\n")
     end
   end
 

@@ -1,14 +1,9 @@
-<% content_for :page_assets do %>
-    <%= stylesheet_link_tag 'index', 'custom' %>
-<% end %>
-
-
 <div class="row">
   <div class="col-xs-2">
     Chapter:&nbsp;<%= link_to @chapter.name, @chapter %>
   </div>
   <div class="col-xs-10">
-    <h1><%= @example.name %></h1>
+    <h1 class="page-header"><%= @example.name %></h1>
     <%= content_tag :div, class: "description" do
       @example.description
     end if @example.description %>
@@ -20,11 +15,13 @@
 end if @example.template_name %>
 
 <h3>Example</h3>
-<%=  content_tag :div, class: "example_content" do
+<%= content_tag :div, class: "example_content" do
   raw File.read(@example.example_html_file_path)
 end if @example.template_name %>
 
-<h3>Code Sample</h3>
-<%= content_tag :pre, class: "example_script_preview" do
-  File.read(@example.example_js_file_path)
-end if @example.template_name %>
+<div class="example_script_container">
+  <h3 class="example_script_header">Code Sample <span class="toggler"></span></h3>
+  <%= content_tag :pre, class: "example_script_preview" do
+    File.read(@example.example_js_file_path)
+  end %>
+</div>

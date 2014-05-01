@@ -16,4 +16,27 @@
   margin: 5px;
   border: 2px solid lightgray;
   padding: 5px;
+  display: none;
+}
+
+.example_script_header span.toggler
+{
+  font-size: 70%;
+  color: #cccccc;
+}
+
+
+.example_script_container .example_script_header span.toggler:after
+{
+  content: "(show)";
+}
+
+.example_script_container.show-example .example_script_header span.toggler:after
+{
+  content: "(hide)";
+}
+
+.example_script_container.show-example .example_script_preview
+{
+  display: block;
 }

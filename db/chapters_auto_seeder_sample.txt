@@ -1,6 +1,8 @@
-seeder Chapter, :name,  {number: 1, name: 'Introduction'}
-seeder Chapter, :name,  {number: 2, name: 'Real World Examples'}
-seeder Chapter, :name,  {number: 1, name: 'Introduction'}
-seeder Chapter, :name,  {number: 2, name: 'Real World Examples'}
-seeder Chapter, :name,  {number: 1, name: 'Introduction'}
-seeder Chapter, :name,  {number: 2, name: 'Real World Examples'}
+Chapter.class_eval do
+  def add_to_auto_seed
+    puts "Skipping autoseed for #{self.class} #{self.id} because we are seeding right now"
+  end
+end
+
+seeder Chapter, :name,  {:id=>1, :name=>"Introduction", :number=>1}
+seeder Chapter, :name,  {:id=>2, :name=>"Real World Examples", :number=>2}

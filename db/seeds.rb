@@ -6,11 +6,13 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-def seeder model, key, data
+def seeder model, key, data, &block
   item = model.where({key => data[key]}).first
   if item.nil?
     puts "Seeding #{model.name} #{data[key]}"
-    item = model.create(data)
+    item = model.new(data)
+    yield item if block_given?
+    item.save!
   end
 end
 
