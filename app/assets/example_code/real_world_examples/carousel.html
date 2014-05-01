@@ -7,7 +7,7 @@
 
 <style>
     .backdrop {
-        background-color: #666666;
+        background-color: #333333;
         padding: 50px;
     }
 
@@ -16,9 +16,28 @@
         margin-right: 20%;
     }
 
-    ul.slick-dots
-    {
+    ul.slick-dots {
         margin: 0 0 0 0;
+    }
+
+    #my_carousel div.car_page {
+        background-color: black;
+        color: #EEEEEE;
+        vertical-align: top;
+    }
+
+    #my_carousel div.car_page div.header {
+        font-weight: bold;
+        border-bottom: 2px solid #EEEEEE;
+    }
+
+
+    #my_carousel div.car_page div {
+        padding: 10px 5px 5px 10px;
+    }
+
+    #my_carousel div.car_page img {
+        display: inline;
     }
 
 
@@ -26,8 +45,26 @@
 
 <div class="backdrop">
     <div id="my_carousel" class="slick_carousel">
-        <div class="car_page"><img src="http://clients.stujophoto.com/photos/i-dX8tJCK/0/S/i-dX8tJCK-S.jpg"></div>
-        <div class="car_page"><img src="http://clients.stujophoto.com/photos/i-FFdvp2Q/3/S/i-FFdvp2Q-S.jpg"></div>
-        <div class="car_page"><img src="http://clients.stujophoto.com/photos/i-cKB9nDX/0/S/i-cKB9nDX-S.jpg"></div>
+        <div class="car_page">
+            <div style="text-align: center">
+                <img class="hero" src="http://clients.stujophoto.com/photos/i-cKB9nDX/0/S/i-cKB9nDX-S.jpg">
+            </div>
+            <div class="header">Rocks</div>
+            <div>Freezing waves crashing over the coast</div>
+        </div>
+        <div class="car_page">
+            <div style="text-align: center">
+                <img class="hero" src="http://clients.stujophoto.com/photos/i-dX8tJCK/0/S/i-dX8tJCK-S.jpg">
+            </div>
+            <div class="header">Iceberg</div>
+            <div>Iceland's glaciers are world famous</div>
+        </div>
+        <div class="car_page">
+            <div style="text-align: center">
+                <img class="hero" src="http://clients.stujophoto.com/photos/i-FFdvp2Q/3/S/i-FFdvp2Q-S.jpg">
+            </div>
+            <div class="header">Horses</div>
+            <div>These tiny horses are incredibly hardy</div>
+        </div>
     </div>
 </div>
