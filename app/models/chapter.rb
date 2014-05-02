@@ -1,10 +1,9 @@
 class Chapter < ActiveRecord::Base
-  has_many :examples
+  has_many :examples, ->{ order(:number) }
 
   after_commit :add_to_auto_seed, on: [:create]
 
-
-  default_scope :order => 'number'
+  default_scope {order(:number)}
 
   def url_tag
     self.name.parameterize.underscore

@@ -1,6 +1,6 @@
 class Example < ActiveRecord::Base
   belongs_to :chapter
-  default_scope :order => 'number'
+  default_scope {order(:number)}
 
   before_save :set_template, :set_number
   after_commit :ensure_templates, on: [:create]

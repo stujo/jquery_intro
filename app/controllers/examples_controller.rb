@@ -18,12 +18,34 @@ class ExamplesController < ApplicationController
   end
 
   def example
-    @example ||= Example.find params[:id]
-    @example = nil if @example.chapter_id != chapter.id
+    load_example
+    unless @example.nil?
+      @example_js = load_sample_file(@example.example_js_file_path)
+      @example_html =load_sample_file(@example.example_html_file_path)
+    end
+  end
+
+  private
+  def load_sample_file filename
+    begin
+      sample = File.read(filename)
+      sample = sample.strip unless sample.nil?
+      sample = nil if sample == ""
+    rescue
+      sample = nil
+    end
+    sample
   end
 
   def example_params
     params.require(:example).permit(:name)
+  end
+
+  def load_example
+    @example ||= Example.find params[:id]
+    if @example.chapter_id != chapter.id
+      @example = nil
+    end
   end
 
 end

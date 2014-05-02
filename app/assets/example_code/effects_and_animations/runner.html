@@ -1,0 +1,44 @@
+<!-- Example:  runner -->
+
+<style>
+    .playingfield {
+        position: relative;
+        border: 3px solid green;
+        width: 300px;
+        height: 200px;
+    }
+
+    .ball {
+        position: absolute;
+        border: 10px solid red;
+        border-radius: 10px;
+        width: 0px;
+        height: 0px;
+    }
+
+</style>
+
+
+<button id="example-toggler" class="btn-large btn">Toggle</button>
+
+<div class="playingfield" style="position: relative; border: 3px solid green; width: 300px; height: 200px">
+
+    <div class="ball"
+         data-delta_x="3"
+         data-delta_y="2"
+         style="top: 80px; left: 150px; border-color: red;">
+    </div>
+
+    <div class="ball"
+         data-delta_x="2"
+         data-delta_y="1"
+         style="top: 150px; left: 65px; border-color: blue;">
+    </div>
+
+    <div class="ball"
+         data-delta_x="1"
+         data-delta_y="-3"
+         style="left: 50px; top: 65px; border-color: green;">
+    </div>
+
+</div>

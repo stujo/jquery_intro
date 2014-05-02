@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '~>4.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -48,8 +48,7 @@ gem 'quiet_assets', :group => :development
 # gem 'debugger', group: [:development, :test]
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.14.2'
-  #gem 'rspec-rails', '~> 3.0.0.beta'
+  gem 'rspec-rails', '~> 2.14'
 end
 
 gem 'twitter-bootstrap-rails'

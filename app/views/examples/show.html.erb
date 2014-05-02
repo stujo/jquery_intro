@@ -4,25 +4,31 @@ Chapter:&nbsp;<%= link_to @chapter.name, @chapter %>
   @example.description
 end if @example.description %>
 
-<%= content_tag :script, class: "example_script_code" do
-  raw File.read(@example.example_js_file_path)
-end if @example.template_name %>
+<% if @example_js %>
+    <%= content_tag :script, class: "example_script_code" do
+      raw @example_js
+    end %>
+<% end %>
 
 <h3>Example</h3>
 <%= content_tag :div, class: "example_content" do
-  raw File.read(@example.example_html_file_path)
-end if @example.template_name %>
+  raw @example_html
+end %>
 
-<div class="example_sample_container">
-  <h3 class="sample_header">JavaScript Code Sample <span class="toggler"></span></h3>
-  <%= content_tag :div, class: "example_sample_preview" do
-    raw CodeRay.scan( File.read(@example.example_js_file_path), :javascript).div(:line_numbers => :table)
-  end %>
-</div>
+<% if @example_js %>
+    <div class="example_sample_container">
+      <h3 class="sample_header">JavaScript Code Sample <span class="toggler"></span></h3>
+      <%= content_tag :div, class: "example_sample_preview" do
+        raw CodeRay.scan(@example_js, :javascript).div(:line_numbers => :table)
+      end %>
+    </div>
+<% end %>
 
-<div class="example_sample_container">
-  <h3 class="sample_header">HTML Sample <span class="toggler"></span></h3>
-  <%= content_tag :div, class: "example_sample_preview" do
-    raw CodeRay.scan( File.read(@example.example_html_file_path), :html).div(:line_numbers => :table)
-  end %>
-</div>
+<% if @example_html %>
+    <div class="example_sample_container">
+      <h3 class="sample_header">HTML Sample <span class="toggler"></span></h3>
+      <%= content_tag :div, class: "example_sample_preview" do
+        raw CodeRay.scan(@example_html, :html).div(:line_numbers => :table)
+      end %>
+    </div>
+<% end %>
