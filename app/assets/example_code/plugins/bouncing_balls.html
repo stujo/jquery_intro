@@ -1,0 +1,41 @@
+<!-- Example:  runner -->
+
+<style>
+    .playingfield {
+        position: relative;
+        height: 40px;
+        padding: 0px;
+        margin: 0px;
+        width: 100%;
+    }
+
+    .ball {
+        position: absolute;
+        border: 10px solid;
+        border-radius: 10px;
+        width: 0px;
+        height: 0px;
+        opacity: 0.6;
+    }
+
+    .ball.inactive {
+        opacity: 0.2;
+    }
+
+    .ball.active {
+    }
+
+
+</style>
+
+
+<div style="position: relative; padding: 0px; margin: 0px; border: 3px solid green;">
+    <div class="playingfield" data-running="true" style="position: absolute;">
+    </div>
+</div>
+
+<div>
+    <h3>Frame Info</h3>
+
+    <div id="field_status"></div>
+</div>

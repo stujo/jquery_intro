@@ -18,3 +18,4 @@ seeder Example, :name,  {:name=>"Broken", :number=>1, :description=>nil} do |exa
 seeder Example, :name,  {:name=>"Fixed", :number=>2, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Introduction"); end
 seeder Example, :name,  {:name=>"Delegate", :number=>3, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Introduction"); end
 seeder Example, :name,  {:name=>"Runner", :number=>6, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Effects and Animations"); end
+seeder Example, :name,  {:name=>"Bouncing Balls", :number=>1, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Plugins"); end
