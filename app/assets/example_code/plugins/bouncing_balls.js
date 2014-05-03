@@ -33,65 +33,58 @@ $.fn.skip_frame_animation = function (config) {
     }
   }
 
-  function setup_callbacks(animation_container, config) {
+  function animation_frame_wrapper(me, seq, frame_number, last_frame_time, frame_duration, skipped) {
+    if (config.max_frame_count > 0 && frame_number > config.max_frame_count) {
+      stop_animation(animation_container, config);
+    }
 
-    animation_container.on("skip_frame_animation.next", function (event, seq, frame_number, last_frame_time, frame_duration, skipped) {
-      var me = $(event.target);
+    if (me.data('running') == seq) {
+      var current_ms = (new Date()).getTime();
 
-      if (config.max_frame_count > 0 && frame_number > config.max_frame_count) {
+      me.data('frame_number', frame_number);
+      var total_skipped = parseInt(me.data('skipped_frames')) + skipped;
+      me.data('skipped_frames', total_skipped);
+
+      if (animate_frame(animation_container, frame_number, current_ms - last_frame_time, skipped)) {
+
+        var used_ms = (new Date()).getTime() - current_ms;
+
+        var next_scheduled = frame_duration - used_ms;
+
+        var skip_frames = 0;
+
+        if (next_scheduled < 0) {
+          var blank_time = -next_scheduled;
+          skip_frames = Math.floor((blank_time) / frame_duration);
+          var remainder_used_ms = blank_time % frame_duration;
+
+
+          frame_number += skip_frames;
+          next_scheduled = frame_duration + (frame_duration - remainder_used_ms);
+        }
+
+        update_status_div(animation_container, config, frame_number, total_skipped);
+
+        // Always takes a few ms to schedule the event
+        next_scheduled -= 2;
+
+        var next_frame_number = frame_number + 1;
+
+        if (config.debug_log) {
+          console.log("Rescheduling frame " + next_frame_number + " for " + seq + " in:" + next_scheduled);
+        }
+        setTimeout(function (event) {
+          animation_frame_wrapper(animation_container, seq, next_frame_number, current_ms, frame_duration, skip_frames);
+        }, next_scheduled);
+      }
+      else {
         stop_animation(animation_container, config);
       }
-
-      if (me.data('running') == seq) {
-        var current_ms = (new Date()).getTime();
-
-        me.data('frame_number', frame_number);
-        var total_skipped = parseInt(me.data('skipped_frames')) + skipped;
-        me.data('skipped_frames', total_skipped);
-
-        if (animate_frame(animation_container, frame_number, current_ms - last_frame_time, skipped)) {
-
-          var used_ms = (new Date()).getTime() - current_ms;
-
-          var next_scheduled = frame_duration - used_ms;
-
-          var skip_frames = 0;
-
-          if (next_scheduled < 0) {
-            var blank_time = -next_scheduled;
-            skip_frames = Math.floor((blank_time) / frame_duration);
-            var remainder_used_ms = blank_time % frame_duration;
-
-
-            frame_number += skip_frames;
-            next_scheduled = frame_duration + (frame_duration - remainder_used_ms);
-          }
-          else {
-            update_status_div(animation_container, config, frame_number, total_skipped);
-          }
-
-
-          // Always takes a few ms to schedule the event
-          next_scheduled -= 2;
-
-          var next_frame_number = frame_number + 1;
-
-          if (config.debug_log) {
-            console.log("Rescheduling frame " + next_frame_number + " for " + seq + " in:" + next_scheduled);
-          }
-          setTimeout(function () {
-            me.trigger("skip_frame_animation.next", [seq, next_frame_number, current_ms, frame_duration, skip_frames]);
-          }, next_scheduled);
-        }
-        else {
-          stop_animation(animation_container, config);
-        }
-      } else {
-        if (config.debug_log) {
-          console.log("Exiting animation :" + seq + " (" + me.data('running') + ") frame: " + frame_number);
-        }
+    } else {
+      if (config.debug_log) {
+        console.log("Exiting animation :" + seq + " (" + me.data('running') + ") frame: " + frame_number);
       }
-    });
+    }
   }
 
   function start_animation(animation_container, config) {
@@ -108,14 +101,12 @@ $.fn.skip_frame_animation = function (config) {
     if (config.debug_log) {
       console.log("Starting animation " + sequence + " at " + current_ms);
     }
-    animation_container.trigger("skip_frame_animation.next", [sequence, 1, current_ms, config.frame_duration, 0]);
+    animation_frame_wrapper(animation_container, sequence, 1, current_ms, config.frame_duration, 0);
   }
 
   var animation_container = this;
 
   config.initialize(animation_container, config);
-
-  setup_callbacks(animation_container, config);
 
   config.restart = function () {
     start_animation(animation_container, config)
@@ -173,12 +164,13 @@ $(document).ready(
       return false;
     }
 
-    function calcNextLeftPos(config, ball, inWidth, inHeight) {
+    function calcNextLeftPos(config, ball, inWidth, inHeight, current_x, current_y) {
       var delta_x = floatDataWithDefault(ball, 'delta_x', 0);
       var delta_y = floatDataWithDefault(ball, 'delta_y', 0);
       var myWidth = floatDataWithDefault(ball, 'width_cache', ball.outerWidth());
       var myHeight = floatDataWithDefault(ball, 'height_cache', ball.outerHeight());
-      var current_x = parseFloat(ball.css('left'));
+
+
       var new_x = current_x;
 
       if (Math.abs(delta_x) > 0.3) {
@@ -186,12 +178,7 @@ $(document).ready(
 
         var max_x = (inWidth - myWidth);
         var min_x = 0;
-        if (isNaN(current_x)) {
-          current_x = 0;
-        }
 
-
-        var current_y = parseFloat(ball.css('top'));
         var max_y = (inHeight - myHeight);
         var friction = isAtVerticalRest(current_y, max_y, delta_y) ? 0.001 : 0.0001;
 
@@ -230,10 +217,8 @@ $(document).ready(
       return new_x;
     }
 
-    function calcNextTopPos(config, ball, inWidth, inHeight) {
+    function calcNextTopPos(config, ball, inWidth, inHeight, current_x, current_y) {
       var delta_y = floatDataWithDefault(ball, 'delta_y', 0);
-      var current_y = parseFloat(ball.css('top'));
-      //var myWidth = floatDataWithDefault(ball, 'width_cache',  ball.outerWidth());
       var myHeight = floatDataWithDefault(ball, 'height_cache', ball.outerHeight());
 
       var new_y = current_y;
@@ -314,19 +299,46 @@ $(document).ready(
         active_balls.each(function () {
           var ball = $(this);
 
-          var newLeft = calcNextLeftPos(config, ball, inWidth, inHeight);
-          var newTop = calcNextTopPos(config, ball, inWidth, inHeight);
+          var start_x = parseFloat(ball.css('left'));
+          if (isNaN(start_x)) {
+            start_x = 0;
+          }
+          var current_x = start_x;
 
-          if (ball.data('delta_x') == "0" && ball.data('delta_y') == "0") {
-            ball.removeClass('active');
-            ball.addClass('inactive');
+          var start_y = parseFloat(ball.css('top'));
+          if (isNaN(start_y)) {
+            start_y = 0;
           }
-          else {
-            ball.css({
-              left: '' + newLeft + 'px',
-              top: '' + newTop + 'px'
-            });
+
+          var current_y = start_y;
+
+          // Do the math for missing frames
+          // Make this more efficient, we can only absorb so much on the
+          // rendering side!
+          for (var aframe = -1; aframe < skipped_frames; aframe++) {
+
+            current_x = calcNextLeftPos(config, ball, inWidth, inHeight, current_x, current_y);
+            current_y = calcNextTopPos(config, ball, inWidth, inHeight, current_x, current_y);
+
+            if (ball.data('delta_x') == "0" && ball.data('delta_y') == "0") {
+              ball.removeClass('active');
+              ball.addClass('inactive');
+            }
           }
+
+          var updates = {};
+
+          if (start_x != current_x) {
+            updates['left'] = '' + current_x + 'px';
+          }
+          if (start_y != current_y) {
+            updates['top'] = '' + current_y + 'px';
+          }
+
+          if (updates != {}) {
+            ball.css(updates);
+          }
+
         });
         return true;
       }
@@ -336,9 +348,9 @@ $(document).ready(
 
     var config = {
       auto_start: true,
-      frame_duration: 50,
+      frame_duration: 16,
       max_frame_count: -1,
-      ball_count: 10,
+      ball_count: 30,
       initialize: setup_balls,
       frame_callback: move_balls,
       on_complete_callback: explode_balls,
