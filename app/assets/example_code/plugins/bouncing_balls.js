@@ -2,30 +2,30 @@
 
 "use strict";
 
-$.fn.sej_framed_animation = function (config) {
+$.fn.skip_frame_animation = function (config) {
 
-  function animate_frame(ballfield, frame_number, frame_duration, skipped_frames) {
+  function animate_frame(animation_container, frame_number, frame_duration, skipped_frames) {
     if (config.debug_log) {
       console.log("Doing Animation :" + frame_number + " dT:" + frame_duration + " skipped:" + skipped_frames);
     }
-    return config.frame_callback(config, ballfield, frame_number, frame_duration, skipped_frames);
+    return config.frame_callback(config, animation_container, frame_number, frame_duration, skipped_frames);
   }
 
-  function stop_animation(ballfield, config) {
+  function stop_animation(animation_container, config) {
     if (config.debug_log) {
-      console.log("Ending animation :" + ballfield.data('running'));
+      console.log("Ending animation :" + animation_container.data('running'));
     }
-    ballfield.data('running', false);
+    animation_container.data('running', false);
 
     if (config.on_complete_callback) {
       if (config.debug_log) {
         console.log("Calling on_complete_callback");
       }
-      config.on_complete_callback(config, ballfield);
+      config.on_complete_callback(config, animation_container);
     }
   }
 
-  function update_status_div(ballfield, config, frame_number, total_skipped) {
+  function update_status_div(animation_container, config, frame_number, total_skipped) {
     if (config.status_div && config.status_update_frame_count) {
       if (frame_number == 1 || (frame_number % config.status_update_frame_count) == 0) {
         config.status_div.html("<span>Frame #" + frame_number + " <sup>(" + total_skipped + " skipped)</sup></span>");
@@ -33,13 +33,13 @@ $.fn.sej_framed_animation = function (config) {
     }
   }
 
-  function setup_callbacks(ballfield, config) {
+  function setup_callbacks(animation_container, config) {
 
-    ballfield.on("sej_framed_animation.next", function (event, seq, frame_number, last_frame_time, frame_duration, skipped) {
+    animation_container.on("skip_frame_animation.next", function (event, seq, frame_number, last_frame_time, frame_duration, skipped) {
       var me = $(event.target);
 
       if (config.max_frame_count > 0 && frame_number > config.max_frame_count) {
-        stop_animation(ballfield, config);
+        stop_animation(animation_container, config);
       }
 
       if (me.data('running') == seq) {
@@ -49,7 +49,7 @@ $.fn.sej_framed_animation = function (config) {
         var total_skipped = parseInt(me.data('skipped_frames')) + skipped;
         me.data('skipped_frames', total_skipped);
 
-        if (animate_frame(ballfield, frame_number, current_ms - last_frame_time, skipped)) {
+        if (animate_frame(animation_container, frame_number, current_ms - last_frame_time, skipped)) {
 
           var used_ms = (new Date()).getTime() - current_ms;
 
@@ -67,7 +67,7 @@ $.fn.sej_framed_animation = function (config) {
             next_scheduled = frame_duration + (frame_duration - remainder_used_ms);
           }
           else {
-            update_status_div(ballfield, config, frame_number, total_skipped);
+            update_status_div(animation_container, config, frame_number, total_skipped);
           }
 
 
@@ -80,11 +80,11 @@ $.fn.sej_framed_animation = function (config) {
             console.log("Rescheduling frame " + next_frame_number + " for " + seq + " in:" + next_scheduled);
           }
           setTimeout(function () {
-            me.trigger("sej_framed_animation.next", [seq, next_frame_number, current_ms, frame_duration, skip_frames]);
+            me.trigger("skip_frame_animation.next", [seq, next_frame_number, current_ms, frame_duration, skip_frames]);
           }, next_scheduled);
         }
         else {
-          stop_animation(ballfield, config);
+          stop_animation(animation_container, config);
         }
       } else {
         if (config.debug_log) {
@@ -94,31 +94,31 @@ $.fn.sej_framed_animation = function (config) {
     });
   }
 
-  function start_animation(ballfield, config) {
-    if (ballfield.data('running')) {
-      stop_animation(ballfield, config);
+  function start_animation(animation_container, config) {
+    if (animation_container.data('running')) {
+      stop_animation(animation_container, config);
     }
     var sequence = Math.floor(Math.random() * 10000);
-    ballfield.data('running', sequence);
-    ballfield.data('skipped_frames', 0);
-    ballfield.data('frame_number', 0);
+    animation_container.data('running', sequence);
+    animation_container.data('skipped_frames', 0);
+    animation_container.data('frame_number', 0);
 
     var current_ms = (new Date()).getTime();
 
     if (config.debug_log) {
       console.log("Starting animation " + sequence + " at " + current_ms);
     }
-    ballfield.trigger("sej_framed_animation.next", [sequence, 1, current_ms, config.frame_duration, 0]);
+    animation_container.trigger("skip_frame_animation.next", [sequence, 1, current_ms, config.frame_duration, 0]);
   }
 
-  var ballfield = this;
+  var animation_container = this;
 
-  config.initialize(ballfield, config);
+  config.initialize(animation_container, config);
 
-  setup_callbacks(ballfield, config);
+  setup_callbacks(animation_container, config);
 
   config.restart = function () {
-    start_animation(ballfield, config)
+    start_animation(animation_container, config)
   };
 
   if (config.auto_start) {
@@ -130,11 +130,11 @@ $.fn.sej_framed_animation = function (config) {
 $(document).ready(
   function () {
 
-    function setup_balls(ballfield, config) {
-      ballfield.css({position: 'relative', display: 'none'});
-      ballfield.data('running', false);
-      var inWidth = ballfield.innerWidth();
-      var inHeight = ballfield.innerHeight();
+    function setup_balls(animation_container, config) {
+      animation_container.css({position: 'relative', display: 'none'});
+      animation_container.data('running', false);
+      var inWidth = animation_container.innerWidth();
+      var inHeight = animation_container.innerHeight();
 
       for (var i = 0; i < config.ball_count; i++) {
         var top = Math.random() * (inHeight - 20);
@@ -150,10 +150,10 @@ $(document).ready(
           }
         );
 
-        ball.appendTo(ballfield);
+        ball.appendTo(animation_container);
       }
 
-      ballfield.css({display: 'block'});
+      animation_container.css({display: 'block'});
     }
 
     function floatDataWithDefault(jq, key, def_value) {
@@ -282,8 +282,8 @@ $(document).ready(
       return new_y;
     }
 
-    function explode_balls(config, ballfield) {
-      var balls = ballfield.find('.ball');
+    function explode_balls(config, animation_container) {
+      var balls = animation_container.find('.ball');
 
       if (balls.length > 0) {
         balls.each(function () {
@@ -338,7 +338,7 @@ $(document).ready(
       auto_start: true,
       frame_duration: 50,
       max_frame_count: -1,
-      ball_count: 1,
+      ball_count: 10,
       initialize: setup_balls,
       frame_callback: move_balls,
       on_complete_callback: explode_balls,
@@ -347,7 +347,7 @@ $(document).ready(
       debug_log: false
     };
 
-    $('.playingfield').sej_framed_animation(config);
+    $('.playingfield').skip_frame_animation(config);
 
   }// document ready callback
 )
