@@ -22,8 +22,8 @@ $(document).ready(
     function calcNextLeftPos(ball, inWidth, inHeight) {
       var delta_x = floatDataWithDefault(ball, 'delta_x', 1);
       var delta_y = floatDataWithDefault(ball, 'delta_yx', 0);
-      var myWidth = floatDataWithDefault(ball, 'width_cache',  ball.outerWidth());
-      var myHeight = floatDataWithDefault(ball, 'height_cache',  ball.outerHeight());
+      var myWidth = floatDataWithDefault(ball, 'width_cache', ball.outerWidth());
+      var myHeight = floatDataWithDefault(ball, 'height_cache', ball.outerHeight());
       var current_x = parseFloat(ball.css('left'));
       var new_x = current_x;
 
@@ -39,7 +39,7 @@ $(document).ready(
 
         var current_y = parseFloat(ball.css('top'));
         var max_y = (inHeight - myHeight);
-        var friction = isAtVerticalRest(current_y, max_y, delta_y) ? 0.02 : 0.005;
+        var friction = isAtVerticalRest(current_y, max_y, delta_y) ? 0.001 : 0.0001;
 
         var delta_delta_x = delta_x > 0 ? -friction : friction;
         delta_x = delta_x + delta_delta_x;
@@ -48,12 +48,20 @@ $(document).ready(
 
         if (new_x > max_x) {
           new_x = max_x - (new_x - max_x);
+          if (new_x > max_x) {
+            new_x = max_x;
+          }
+
           delta_x = -(Math.abs(delta_x) * bounce_factor);
           ball.data('delta_x', delta_x);
         }
         else {
           if (new_x < min_x) {
             new_x = (min_x - new_x);
+            if (new_x < min_x) {
+              new_x = min_x;
+            }
+
             delta_x = (Math.abs(delta_x) * bounce_factor);
             ball.data('delta_x', delta_x);
           }
@@ -72,7 +80,7 @@ $(document).ready(
       var delta_y = floatDataWithDefault(ball, 'delta_y', 1);
       var current_y = parseFloat(ball.css('top'));
       //var myWidth = floatDataWithDefault(ball, 'width_cache',  ball.outerWidth());
-      var myHeight = floatDataWithDefault(ball, 'height_cache',  ball.outerHeight());
+      var myHeight = floatDataWithDefault(ball, 'height_cache', ball.outerHeight());
 
       var new_y = current_y;
       var max_y = (inHeight - myHeight);
@@ -85,7 +93,7 @@ $(document).ready(
         }
 
 
-        var gravity = 0.1;
+        var gravity = 0.05;
 
         delta_y += gravity;
 
@@ -93,11 +101,21 @@ $(document).ready(
 
         if (new_y > max_y) {
           new_y = max_y - (new_y - max_y);
+
+          if (new_y > max_y) {
+            new_y = max_y;
+          }
+
           delta_y = -(Math.abs(delta_y) * bounce_factor);
         }
         else {
           if (new_y < min_y) {
             new_y = min_y - new_y;
+
+            if (new_y < min_y) {
+              new_y = min_y;
+            }
+
             delta_y = (Math.abs(delta_y));
           }
         }
@@ -112,11 +130,12 @@ $(document).ready(
     }
 
     $(".playingfield").on("examples.explode", function () {
-      $(this).find('.ball').each(function () {
+      var playingField = $(this);
+
+      playingField.find('.ball').each(function () {
         var me = $(this);
-        me.data('delta_x', Math.floor((Math.random() * 20) + 1) - 10);
-        me.data('delta_y', Math.floor((Math.random() * 20) + 1) - 15);
-        me.data('bounce_factor', 0.5 + (Math.random() * 0.5));
+        me.data('delta_x', (Math.random() > 0.5 ? -1 : 1) * ((Math.random() * 5) + 10));
+        me.data('delta_y', (Math.random() > 0.5 ? -1 : 1) * ((Math.random() * 5) + 10));
         me.addClass("active").removeClass('inactive');
       });
     });
@@ -156,7 +175,7 @@ $(document).ready(
         balls.trigger("examples.baller", [inWidth, inHeight]);
 
         //console.log(message + ":(" + inWidth + "," + inHeight + ")");
-        var frame_timeout = floatDataWithDefault(playingField, 'frame_timeout', 100);
+        var frame_timeout = floatDataWithDefault(playingField, 'frame_timeout', 10);
         setTimeout(function () {
           playingField.trigger("examples.next");
         }, frame_timeout);
@@ -182,4 +201,6 @@ $(document).ready(
     });
 
     $('.playingfield').trigger("examples.next", ['started']);
-  });
+  }
+)
+;
