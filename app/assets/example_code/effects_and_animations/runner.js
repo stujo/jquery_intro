@@ -134,34 +134,15 @@ $(document).ready(
 
       playingField.find('.ball').each(function () {
         var me = $(this);
+        me.css({
+          position: 'absolute'
+        });
         me.data('delta_x', (Math.random() > 0.5 ? -1 : 1) * ((Math.random() * 5) + 10));
         me.data('delta_y', (Math.random() > 0.5 ? -1 : 1) * ((Math.random() * 5) + 10));
         me.addClass("active").removeClass('inactive');
       });
     });
 
-
-    $(".playingfield").on("examples.baller", function (event, inWidth, inHeight) {
-
-      $(this).find('.ball.active').each(function () {
-
-        var me = $(this);
-
-        var newLeft = calcNextLeftPos(me, inWidth, inHeight);
-        var newTop = calcNextTopPos(me, inWidth, inHeight);
-
-        if (me.data('delta_x') == "0" && me.data('delta_y') == "0") {
-          me.removeClass('active');
-          me.addClass('inactive');
-        }
-
-        $(this).css({
-          position: 'absolute',
-          left: '' + newLeft + 'px',
-          top: '' + newTop + 'px'
-        });
-      });
-    });
 
     $(".playingfield").on("examples.next", function (event) {
       var playingField = $(this);
@@ -170,10 +151,24 @@ $(document).ready(
         inWidth = playingField.innerWidth();
         inHeight = playingField.innerHeight();
 
-        balls = playingField.find(".ball.active");
+        playingField.find('.ball.active').each(function () {
 
-        balls.trigger("examples.baller", [inWidth, inHeight]);
+          var ball = $(this);
 
+          var newLeft = calcNextLeftPos(ball, inWidth, inHeight);
+          var newTop = calcNextTopPos(ball, inWidth, inHeight);
+
+          if (ball.data('delta_x') == "0" && ball.data('delta_y') == "0") {
+            ball.removeClass('active');
+            ball.addClass('inactive');
+          }
+          else {
+            ball.css({
+              left: '' + newLeft + 'px',
+              top: '' + newTop + 'px'
+            });
+          }
+        });
         //console.log(message + ":(" + inWidth + "," + inHeight + ")");
         var frame_timeout = floatDataWithDefault(playingField, 'frame_timeout', 10);
         setTimeout(function () {
