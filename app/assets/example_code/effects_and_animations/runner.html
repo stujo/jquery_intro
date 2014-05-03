@@ -4,7 +4,7 @@
     .playingfield {
         position: relative;
         border: 3px solid green;
-        width: 400px;
+        width: 100%;
         height: 175px;
     }
 
@@ -14,14 +14,14 @@
         border-radius: 10px;
         width: 0px;
         height: 0px;
+        opacity: 0.6;
     }
 
     .ball.inactive {
-        opacity: 0.1;
+        opacity: 0.2;
     }
 
     .ball.active {
-        opacity: 0.5;
     }
 
 
@@ -30,32 +30,41 @@
 
 <button id="example-toggler" class="btn-large btn">Start / Stop</button>
 <button id="example-explode" class="btn-large btn">Explode</button>
+<button id="example-add" class="btn-large btn">Add</button>
+<button id="example-remove" class="btn-large btn">Remove</button>
 
 <div class="playingfield" style="position: relative; border: 3px solid green">
 
-    <div class="ball"
+    <div class="ball inactive"
          data-delta_x="3"
          data-delta_y="2"
          data-bounce_factor="0.9"
          style="top: 80px; left: 150px; border-color: red;">
     </div>
 
-    <div class="ball"
+    <div class="ball inactive"
+         data-delta_x="3"
+         data-delta_y="2"
+         data-bounce_factor="0.9"
+         style="top: 10px; left: 15px; border-color: #730E15;">
+    </div>
+
+    <div class="ball inactive"
          data-delta_x="2"
          data-delta_y="1"
          data-bounce_factor="0.5"
          style="top: 150px; left: 65px; border-color: blue;">
     </div>
 
-    <div class="ball"
+    <div class="ball inactive"
          data-delta_x="5"
          data-delta_y="2"
          data-bounce_factor="0.5"
          style="top: 10px; left: 60px; border-color: #FFCC00;">
     </div>
 
-    <div class="ball"
-         data-delta_x="1"
+    <div class="ball active"
+         data-delta_x="0"
          data-delta_y="-3"
          data-bounce_factor="0.7"
          style="left: 50px; top: 65px; border-color: green;">

@@ -25,7 +25,7 @@ $(document).ready(
       var current_x = parseFloat(ball.css('left'));
       var new_x = current_x;
 
-      if (Math.abs(delta_x) > 0.51) {
+      if (Math.abs(delta_x) > 0.3) {
         var bounce_factor = floatDataWithDefault(ball, 'bounce_factor', 0.9);
 
         var max_x = (field.innerWidth() - ball.outerWidth());
@@ -80,16 +80,14 @@ $(document).ready(
         }
 
 
-        var gravity = (1 + (0.1 * Math.abs(delta_y)));
+        var gravity = 0.1;
 
-        var delta_delta_y = gravity;
-        delta_y = delta_y + delta_delta_y;
-
+        delta_y += gravity;
 
         new_y = current_y + delta_y;
 
         if (new_y > max_y) {
-          new_y = max_y - ((new_y - max_y) * bounce_factor);
+          new_y = max_y - (new_y - max_y);
           delta_y = -(Math.abs(delta_y) * bounce_factor);
         }
         else {
@@ -99,6 +97,7 @@ $(document).ready(
           }
         }
         ball.data('delta_y', delta_y);
+       // ball.html(delta_y);
       }
       else {
         ball.data('delta_y', "0");
@@ -110,8 +109,8 @@ $(document).ready(
     $(".playingfield").on("examples.explode", function () {
       $(this).find('.ball').each(function () {
         var me = $(this);
-        me.data('delta_x', Math.floor((Math.random() * 40) + 1) - 20);
-        me.data('delta_y', Math.floor((Math.random() * 40) + 1) - 30);
+        me.data('delta_x', Math.floor((Math.random() * 20) + 1) - 10);
+        me.data('delta_y', Math.floor((Math.random() * 20) + 1) - 15);
         me.data('bounce_factor', 0.5 + (Math.random() * 0.5));
         me.addClass("active").removeClass('inactive');
       });
@@ -162,8 +161,7 @@ $(document).ready(
 
     $("button#example-explode").click(function () {
 
-      if(!$(".playingfield").data['running'])
-      {
+      if (!$(".playingfield").data['running']) {
         $(".playingfield").data['running'] = true;
         $('.playingfield').trigger("examples.next");
       }
