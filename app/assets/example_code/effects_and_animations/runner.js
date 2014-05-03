@@ -19,16 +19,18 @@ $(document).ready(
     }
 
 
-    function calcNextLeftPos(field, ball) {
+    function calcNextLeftPos(ball, inWidth, inHeight) {
       var delta_x = floatDataWithDefault(ball, 'delta_x', 1);
       var delta_y = floatDataWithDefault(ball, 'delta_yx', 0);
+      var myWidth = floatDataWithDefault(ball, 'width_cache',  ball.outerWidth());
+      var myHeight = floatDataWithDefault(ball, 'height_cache',  ball.outerHeight());
       var current_x = parseFloat(ball.css('left'));
       var new_x = current_x;
 
       if (Math.abs(delta_x) > 0.3) {
         var bounce_factor = floatDataWithDefault(ball, 'bounce_factor', 0.9);
 
-        var max_x = (field.innerWidth() - ball.outerWidth());
+        var max_x = (inWidth - myWidth);
         var min_x = 0;
         if (isNaN(current_x)) {
           current_x = 0;
@@ -36,7 +38,7 @@ $(document).ready(
 
 
         var current_y = parseFloat(ball.css('top'));
-        var max_y = (field.innerHeight() - ball.outerHeight());
+        var max_y = (inHeight - myHeight);
         var friction = isAtVerticalRest(current_y, max_y, delta_y) ? 0.02 : 0.005;
 
         var delta_delta_x = delta_x > 0 ? -friction : friction;
@@ -66,11 +68,14 @@ $(document).ready(
       return new_x;
     }
 
-    function calcNextTopPos(field, ball) {
+    function calcNextTopPos(ball, inWidth, inHeight) {
       var delta_y = floatDataWithDefault(ball, 'delta_y', 1);
       var current_y = parseFloat(ball.css('top'));
+      //var myWidth = floatDataWithDefault(ball, 'width_cache',  ball.outerWidth());
+      var myHeight = floatDataWithDefault(ball, 'height_cache',  ball.outerHeight());
+
       var new_y = current_y;
-      var max_y = (field.innerHeight() - ball.outerHeight());
+      var max_y = (inHeight - myHeight);
 
       if (!isAtVerticalRest(current_y, max_y, delta_y)) {
         var bounce_factor = floatDataWithDefault(ball, 'bounce_factor', 0.9);
@@ -97,7 +102,7 @@ $(document).ready(
           }
         }
         ball.data('delta_y', delta_y);
-       // ball.html(delta_y);
+        // ball.html(delta_y);
       }
       else {
         ball.data('delta_y', "0");
@@ -117,15 +122,14 @@ $(document).ready(
     });
 
 
-    $(".playingfield").on("examples.baller", function () {
+    $(".playingfield").on("examples.baller", function (event, inWidth, inHeight) {
 
       $(this).find('.ball.active').each(function () {
 
         var me = $(this);
 
-        var field = me.parent();
-        var newLeft = calcNextLeftPos(field, me);
-        var newTop = calcNextTopPos(field, me);
+        var newLeft = calcNextLeftPos(me, inWidth, inHeight);
+        var newTop = calcNextTopPos(me, inWidth, inHeight);
 
         if (me.data('delta_x') == "0" && me.data('delta_y') == "0") {
           me.removeClass('active');
@@ -140,11 +144,18 @@ $(document).ready(
       });
     });
 
-    $(".playingfield").on("examples.next", function () {
-      if ($(this).data['running']) {
-        $(this).find(".ball.active").trigger("examples.baller");
+    $(".playingfield").on("examples.next", function (event) {
+      var playingField = $(this);
+      if (playingField.data['running']) {
 
-        var playingField = $(this);
+        inWidth = playingField.innerWidth();
+        inHeight = playingField.innerHeight();
+
+        balls = playingField.find(".ball.active");
+
+        balls.trigger("examples.baller", [inWidth, inHeight]);
+
+        //console.log(message + ":(" + inWidth + "," + inHeight + ")");
         var frame_timeout = floatDataWithDefault(playingField, 'frame_timeout', 100);
         setTimeout(function () {
           playingField.trigger("examples.next");
@@ -155,7 +166,7 @@ $(document).ready(
     $("button#example-toggler").click(function () {
       $(".playingfield").data['running'] = !$(".playingfield").data['running'];
       if ($(".playingfield").data['running']) {
-        $('.playingfield').trigger("examples.next");
+        $('.playingfield').trigger("examples.next", ['toggled']);
       }
     });
 
@@ -163,12 +174,12 @@ $(document).ready(
 
       if (!$(".playingfield").data['running']) {
         $(".playingfield").data['running'] = true;
-        $('.playingfield').trigger("examples.next");
+        $('.playingfield').trigger("examples.next", ['exploded']);
       }
 
       $('.playingfield').find(".ball").trigger("examples.explode");
 
     });
 
-    $('.playingfield').trigger("examples.next");
+    $('.playingfield').trigger("examples.next", ['started']);
   });
