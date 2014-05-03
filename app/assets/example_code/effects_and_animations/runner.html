@@ -4,8 +4,9 @@
     .playingfield {
         position: relative;
         border: 3px solid green;
-        width: 100%;
+        width: 90%;
         height: 250px;
+        margin: 10px;
     }
 
     .ball {
@@ -31,41 +32,77 @@
 <button id="example-toggler" class="btn-large btn">Start / Stop</button>
 <button id="example-explode" class="btn-large btn">Shake</button>
 
-<div class="playingfield" style="position: relative; border: 3px solid green">
+<div class="playingfield" data-running="true" style="position: relative; border: 3px solid green">
 
-    <div class="ball inactive"
-         data-delta_x="3"
-         data-delta_y="2"
+    <div class="ball active"
          data-bounce_factor="0.9"
-         style="top: 80px; left: 150px; border-color: red;">
+         style="top: 80px; left: 150px; border-color: orangered;">
     </div>
 
-    <div class="ball inactive"
-         data-delta_x="3"
-         data-delta_y="2"
+
+    <div class="ball active"
+         data-bounce_factor="0.9"
+         style="top: 61px; left: 343px; border-color: purple;">
+    </div>
+
+
+    <div class="ball active"
+         data-bounce_factor="0.9"
+         style="top: 43px; left: 123px; border-color: red;">
+    </div>
+
+    <div class="ball active"
          data-bounce_factor="0.9"
          style="top: 10px; left: 15px; border-color: #730E15;">
     </div>
 
-    <div class="ball inactive"
-         data-delta_x="2"
-         data-delta_y="1"
+    <div class="ball active"
          data-bounce_factor="0.9"
-         style="top: 150px; left: 65px; border-color: blue;">
-    </div>
-
-    <div class="ball inactive"
-         data-delta_x="5"
-         data-delta_y="2"
-         data-bounce_factor="0.9"
-         style="top: 10px; left: 60px; border-color: #FFCC00;">
+         style="top: 150px; left: 74px; border-color: blue;">
     </div>
 
     <div class="ball active"
-         data-delta_x="0"
-         data-delta_y="-3"
+         data-bounce_factor="0.9"
+         style="top: 17px; left: 201px; border-color: #FFCC00;">
+    </div>
+
+    <div class="ball active"
+         data-bounce_factor="0.9"
+         style="top: 40px; left: 250px; border-color: lightseagreen;">
+    </div>
+
+    <div class="ball active"
+         data-bounce_factor="0.9"
+         style="top: 70px; left: 275px; border-color: plum;">
+    </div>
+
+    <div class="ball active"
          data-bounce_factor="0.9"
          style="left: 50px; top: 65px; border-color: green;">
     </div>
 
+</div>
+
+<div class="singles" style="height: 120px;">
+    <div class="playingfield" style="float: left; width: 100px; height: 100px;" data-running="true"
+         style="position: relative; border: 3px solid green">
+        <div class="ball active"
+             data-bounce_factor="0.9"
+             style="top: 10px; left: 20px; border-color: orangered;">
+        </div>
+    </div>
+    <div class="playingfield" style="float: left; width: 100px; height: 100px;" data-running="true"
+         style="position: relative; border: 3px solid green">
+        <div class="ball active"
+             data-bounce_factor="0.9"
+             style="top: 5px; left: 30px; border-color: plum;">
+        </div>
+    </div>
+    <div class="playingfield" style="float: left; width: 100px; height: 100px;" data-running="true"
+         style="position: relative; border: 3px solid green">
+        <div class="ball active"
+             data-bounce_factor="0.9"
+             style="left: 50px; top: 65px; border-color: green;">
+        </div>
+    </div>
 </div>

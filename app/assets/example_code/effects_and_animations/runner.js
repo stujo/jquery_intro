@@ -20,8 +20,8 @@ $(document).ready(
 
 
     function calcNextLeftPos(ball, inWidth, inHeight) {
-      var delta_x = floatDataWithDefault(ball, 'delta_x', 1);
-      var delta_y = floatDataWithDefault(ball, 'delta_yx', 0);
+      var delta_x = floatDataWithDefault(ball, 'delta_x', 0);
+      var delta_y = floatDataWithDefault(ball, 'delta_y', 0);
       var myWidth = floatDataWithDefault(ball, 'width_cache', ball.outerWidth());
       var myHeight = floatDataWithDefault(ball, 'height_cache', ball.outerHeight());
       var current_x = parseFloat(ball.css('left'));
@@ -77,7 +77,7 @@ $(document).ready(
     }
 
     function calcNextTopPos(ball, inWidth, inHeight) {
-      var delta_y = floatDataWithDefault(ball, 'delta_y', 1);
+      var delta_y = floatDataWithDefault(ball, 'delta_y', 0);
       var current_y = parseFloat(ball.css('top'));
       //var myWidth = floatDataWithDefault(ball, 'width_cache',  ball.outerWidth());
       var myHeight = floatDataWithDefault(ball, 'height_cache', ball.outerHeight());
@@ -141,6 +141,7 @@ $(document).ready(
         me.data('delta_y', (Math.random() > 0.5 ? -1 : 1) * ((Math.random() * 5) + 10));
         me.addClass("active").removeClass('inactive');
       });
+
     });
 
 
@@ -151,8 +152,9 @@ $(document).ready(
         inWidth = playingField.innerWidth();
         inHeight = playingField.innerHeight();
 
-        playingField.find('.ball.active').each(function () {
+        balls = playingField.find('.ball.active');
 
+        balls.each(function () {
           var ball = $(this);
 
           var newLeft = calcNextLeftPos(ball, inWidth, inHeight);
@@ -169,8 +171,11 @@ $(document).ready(
             });
           }
         });
-        //console.log(message + ":(" + inWidth + "," + inHeight + ")");
+
         var frame_timeout = floatDataWithDefault(playingField, 'frame_timeout', 10);
+        if (balls.length == 0) {
+          playingField.trigger("examples.explode");
+        }
         setTimeout(function () {
           playingField.trigger("examples.next");
         }, frame_timeout);
@@ -180,7 +185,7 @@ $(document).ready(
     $("button#example-toggler").click(function () {
       $(".playingfield").data['running'] = !$(".playingfield").data['running'];
       if ($(".playingfield").data['running']) {
-        $('.playingfield').trigger("examples.next", ['toggled']);
+        $('.playingfield').trigger("examples.next");
       }
     });
 
@@ -188,14 +193,14 @@ $(document).ready(
 
       if (!$(".playingfield").data['running']) {
         $(".playingfield").data['running'] = true;
-        $('.playingfield').trigger("examples.next", ['exploded']);
+        $('.playingfield').trigger("examples.next");
       }
 
       $('.playingfield').find(".ball").trigger("examples.explode");
 
     });
 
-    $('.playingfield').trigger("examples.next", ['started']);
+    $('.playingfield').trigger("examples.next");
   }
 )
 ;
