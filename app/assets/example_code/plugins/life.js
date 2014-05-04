@@ -142,7 +142,7 @@ $(window).load(
       animation_container.data('wave_column', wave_column);
 
       if (wave_column >= 0 && wave_column < config.life.columns) {
-        for (var y = 0; y < config.life.rows; y++) {
+        for (var y = 0; y < config.life.rows; y+= 4) {
           var node = nodes[wave_column][y];
           node.alive = !node.alive;
         }
