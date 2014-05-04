@@ -126,26 +126,19 @@ $.fn.skip_frame_animation = function (config) {
 $(window).load(
   function () {
 
+
     function life_age(config, animation_container, frame_number, frame_duration, skipped_frames) {
 
       var nodes = animation_container.data('nodes');
 
       var wave_column = parseInt(animation_container.data('wave_column'));
-      if (isNaN(wave_column)) {
-        wave_column = 1;
-      }
-      if (wave_column >= (config.life.columns * 5)) {
-        wave_column = 0; // Skip first column because it looks weird
-      }
-      wave_column++;
 
-      animation_container.data('wave_column', wave_column);
-
-      if (wave_column >= 0 && wave_column < config.life.columns) {
-        for (var y = 0; y < config.life.rows; y+= 4) {
+      if (!isNaN(wave_column) && wave_column >= 0 && wave_column < config.life.columns) {
+        for (var y = 0; y < config.life.rows; y += Math.floor((Math.random() * 3) + 1)) {
           var node = nodes[wave_column][y];
           node.alive = !node.alive;
         }
+        animation_container.data('wave_column', wave_column + 1);
       }
 
       for (var y = 0; y
@@ -202,21 +195,29 @@ $(window).load(
             node.memorial_count = 0;
             node.cell.addClass('alive');
             node.cell.removeClass('dead');
+            node.cell.css({ opacity: 1 });
           }
           else {
             if (node.alive_last) {
+              node.died = frame_number;
               node.memorial_count = 1;
-            } else if (frame_number > 1 && node.memorial_count) {
-              node.memorial_count++;
-              if (node.memorial_count > 9) {
-                node.memorial_count = 0;
-              }
-            }
-
-            if (node.memorial_count) {
-              node.cell.addClass('memorial_count_' + node.memorial_count);
               node.cell.addClass('dead');
               node.cell.removeClass('alive');
+            }
+
+            var died_ago = (frame_number - node.died);
+
+            var fade_age = 40;
+
+            if (died_ago > fade_age) {
+              node.cell.css({ opacity: '' });
+            }
+            else if (died_ago == 0) {
+              node.cell.css({ opacity: 1 });
+            }
+            else { // 1 .. 20
+              var opacity = 1 - (died_ago / parseFloat(fade_age));
+              node.cell.css({ opacity: opacity });
             }
           }
         }
@@ -228,10 +229,14 @@ $(window).load(
           still_frames = 0;
         }
         still_frames++;
-        animation_container.data('still_frames', still_frames);
 
-        if (still_frames > 20) {
-          return false;
+        if (still_frames > 40) {
+          animation_container.data('wave_column', 1);
+          animation_container.data('still_frames', 0);
+        }
+        else {
+          animation_container.data('still_frames', still_frames);
+
         }
       }
 
@@ -327,11 +332,11 @@ $(window).load(
     var config = {
       auto_start: true,
       life: {
-        rows: 40,
+        rows: 30,
         columns: 100,
         density: 0.2
       },
-      frame_duration: 16,
+      frame_duration: 17,
       max_frame_count: -1,
       initialize: life_setup,
       frame_callback: life_age,
@@ -350,7 +355,7 @@ $(window).load(
 
   }
 
-  // document ready callback
+// document ready callback
 )
 ;// document ready
 
