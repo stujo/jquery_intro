@@ -150,7 +150,13 @@ $(document).ready(
     function floatDataWithDefault(jq, key, def_value) {
       var value = parseFloat(jq.data(key));
       if (isNaN(value)) {
-        value = def_value;
+        if (typeof(def_value) == 'function')
+        {
+          value = def_value();
+        }
+        else {
+          value = def_value;
+        }
         jq.data(key, value)
       }
       return value;
@@ -167,8 +173,10 @@ $(document).ready(
     function calcNextLeftPos(config, ball, inWidth, inHeight, current_x, current_y) {
       var delta_x = floatDataWithDefault(ball, 'delta_x', 0);
       var delta_y = floatDataWithDefault(ball, 'delta_y', 0);
-      var myWidth = floatDataWithDefault(ball, 'width_cache', ball.outerWidth());
-      var myHeight = floatDataWithDefault(ball, 'height_cache', ball.outerHeight());
+      var myWidth = floatDataWithDefault(ball, 'width_cache', function () {
+        return ball.outerWidth()
+      });
+      var myHeight = floatDataWithDefault(ball, 'height_cache', function(){ return ball.outerHeight()});
 
 
       var new_x = current_x;
@@ -219,7 +227,7 @@ $(document).ready(
 
     function calcNextTopPos(config, ball, inWidth, inHeight, current_x, current_y) {
       var delta_y = floatDataWithDefault(ball, 'delta_y', 0);
-      var myHeight = floatDataWithDefault(ball, 'height_cache', ball.outerHeight());
+      var myHeight = floatDataWithDefault(ball, 'height_cache', function(){ return  ball.outerHeight()});
 
       var new_y = current_y;
       var max_y = (inHeight - myHeight);
