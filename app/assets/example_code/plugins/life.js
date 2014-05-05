@@ -257,6 +257,14 @@ $(window).load(
 
     function life_setup(animation_container, config) {
 
+      var fieldHeight = animation_container.innerHeight();
+      var fieldWidth = animation_container.innerWidth();
+
+      config.life.columns  =  parseInt(fieldWidth / config.life.cell_size);
+      config.life.rows  =  parseInt(fieldHeight / config.life.cell_size);
+
+
+
       var nodes = create_multi_dimensional_array(config.life.columns, config.life.rows);
 
       var table = $('<table></table>');
@@ -332,8 +340,7 @@ $(window).load(
     var config = {
       auto_start: true,
       life: {
-        rows: 30,
-        columns: 100,
+        cell_size: 15,
         density: 0.2
       },
       frame_duration: 17,
