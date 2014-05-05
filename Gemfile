@@ -49,6 +49,7 @@ gem 'quiet_assets', :group => :development
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.14'
+  gem 'dotenv-rails'
 end
 
 gem 'twitter-bootstrap-rails'
@@ -62,4 +63,3 @@ gem 'coderay'
 group :production do
   gem 'rails_12factor'
 end
-

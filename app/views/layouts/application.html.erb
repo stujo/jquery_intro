@@ -8,6 +8,8 @@
 
   <%= yield :page_assets %>
 
+  <meta name="MY_SECRET_VALUE" content="<%= ENV['MY_SECRET_VALUE'] %>" />
+
 </head>
 <body>
 <%= render :partial => 'layouts/navbar' %>

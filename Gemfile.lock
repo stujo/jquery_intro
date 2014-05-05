@@ -39,6 +39,9 @@ GEM
     coffee-script-source (1.7.0)
     commonjs (0.2.7)
     diff-lcs (1.2.5)
+    dotenv (0.10.0)
+    dotenv-rails (0.10.0)
+      dotenv (= 0.10.0)
     erubis (2.7.0)
     execjs (2.0.2)
     hike (1.2.3)
@@ -147,6 +150,7 @@ PLATFORMS
 DEPENDENCIES
   coderay
   coffee-rails (~> 4.0.0)
+  dotenv-rails
   jbuilder (~> 1.2)
   jquery-rails
   less-rails
