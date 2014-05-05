@@ -2,23 +2,27 @@
 
 <table class="table table-hover">
   <thead>
-    <tr>
-      <th>Chapter</th>
-      <th></th>
-    </tr>
+  <tr>
+    <th>Chapter</th>
+    <% if (edit_mode_enabled?) %>
+        <th></th>
+    <% end %>
+  </tr>
   </thead>
 
   <tbody>
-    <% @chapters.each do |chapter| %>
+  <% @chapters.each do |chapter| %>
       <tr>
         <td><%= link_to "#{chapter.number }) #{chapter.name}", chapter %></td>
-        <td><%= link_to 'Edit', edit_chapter_path(chapter) %></td>
+        <% if (edit_mode_enabled?) %>
+            <td><%= link_to 'Edit', edit_chapter_path(chapter) %></td>
+        <% end %>
       </tr>
-    <% end %>
+  <% end %>
   </tbody>
 </table>
 
-
-<hr/>
-
-<%= link_to 'New Chapter', new_chapter_path %>
+<% if (edit_mode_enabled?) %>
+    <hr/>
+    <%= link_to 'New Chapter', new_chapter_path %>
+<% end %>

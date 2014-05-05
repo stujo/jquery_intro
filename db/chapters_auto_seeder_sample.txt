@@ -7,4 +7,4 @@ end
 seeder Chapter, :name,  {name: "Introduction", :number=>1}
 seeder Chapter, :name,  {:name=>"Effects and Animations", :number=>2}
 seeder Chapter, :name,  {:name=>"Real World Examples", :number=>3}
-seeder Chapter, :name,  {:name=>"Plugins", :number=>nil}
+seeder Chapter, :name,  {:name=>"Plugins", :number=>4}

@@ -1,6 +1,12 @@
 class ChaptersController < ApplicationController
   before_action :set_chapter, only: [:show, :edit, :update, :destroy]
 
+  before_action :edit_enabled?, only: [:new, :edit, :update, :destroy]
+
+  def edit_enabled?
+    redirect_to root_path unless ApplicationHelper.edit_mode_enabled?
+  end
+
   # GET /chapters
   # GET /chapters.json
   def index

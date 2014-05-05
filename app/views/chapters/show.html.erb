@@ -6,11 +6,13 @@
   <%= render @chapter.examples %>
 </ol>
 
-<hr/>
-<%= link_to 'Edit Chapter', edit_chapter_path(@chapter) %>
-<hr/>
-<%= simple_form_for([@chapter, @chapter.examples.build], wrapper: :bootstrap3_inline, html: {class: "form-inline", role: "form"}) do |f| %>
-    <%= f.input :name, label: false, placeholder: 'Example Name', inline_label: 'Example Name' %>
-    <%= f.submit "Add", :class => "btn" %>
+<% if (edit_mode_enabled?) %>
+    <hr/>
+    <%= link_to 'Edit Chapter', edit_chapter_path(@chapter) %>
+    <hr/>
+    <%= simple_form_for([@chapter, @chapter.examples.build], wrapper: :bootstrap3_inline, html: {class: "form-inline", role: "form"}) do |f| %>
+        <%= f.input :name, label: false, placeholder: 'Example Name', inline_label: 'Example Name' %>
+        <%= f.submit "Add", :class => "btn" %>
+    <% end %>
 <% end %>
 
