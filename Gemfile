@@ -59,4 +59,5 @@ gem "simple_form"
 
 gem 'coderay'
 
+gem 'rails_12factor'
 
