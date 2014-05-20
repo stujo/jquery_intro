@@ -1,0 +1,70 @@
+<!-- Example:  pagination -->
+
+<style>
+
+    .github_loading {
+        min-height: 400px;
+        background: #EEEEEE url(/images/ajax-loader.gif) 50% 50% no-repeat;
+    }
+
+    .github_user {
+        min-height: 100px;
+        padding: 5px;
+        border: 1px solid #666666;
+        border-radius: 5px;
+        overflow: auto;
+        margin: 5px;
+    }
+
+    .github_user a {
+        color: #666666;
+    }
+
+    .github_user img {
+        float: right;
+        padding: 5px;
+        max-height: 100px;
+    }
+
+    #github_error {
+        font-weight: bold;
+        color: coral;
+        display: none;
+        border-radius: 4px;
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid coral;
+    }
+
+    #github_search_label {
+        font-weight: bold;
+    }
+
+    .github_pagination {
+        text-align: center;
+    }
+
+</style>
+
+<form class="form-search" id="github_search" action="#" method="get">
+    <input id='github_q' type="text" placeholder="github username" class="input-medium search-query">
+    <button type="submit" class="btn">Search Github Users</button>
+</form>
+
+<div id="github_error"></div>
+<div id="github_search_label"></div>
+
+<hr/>
+
+<div class="github_pagination pagination">
+    <ul>
+        <li class="github_pagination_prev disabled"><a href="#">Prev</a></li>
+        <li class="github_pagination_current disabled"><a href="#">1</a></li>
+        <li class="github_pagination_next disabled"><a href="#">Next</a></li>
+    </ul>
+</div>
+
+<div id="github_pagination_container">
+
+
+</div>
