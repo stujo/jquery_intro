@@ -22,3 +22,4 @@ seeder Example, :name,  {:name=>"Bouncing Balls", :number=>1, :description=>nil}
 seeder Example, :name,  {:name=>"Walking Dog", :number=>2, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Plugins"); end
 seeder Example, :name,  {:name=>"Life", :number=>3, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Plugins"); end
 seeder Example, :name,  {:name=>"DOM Ready", :number=>4, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Introduction"); end
+seeder Example, :name,  {:name=>"In View", :number=>4, :description=>nil} do |example| example.chapter=Chapter.find_by(name: "Plugins"); end

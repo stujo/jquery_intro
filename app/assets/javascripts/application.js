@@ -16,6 +16,7 @@
 //= require bootstrap
 //= require examples
 //= require playingfield
+//= require jquery.inview.js
 
 
 
