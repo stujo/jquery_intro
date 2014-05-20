@@ -4,28 +4,58 @@ $(document).ready(function () {
 
   var page_count = 0;
 
+  var reddit_modes = ['hot', 'rising', 'new'];
+
+  var mode_select = $("#reddit_mode");
+
+  $('#reddit_mode option').each(function(ele) {
+
+    reddit_modes.push(ele.val);
+  })
+
   //Reset the infinite search
-  function init_reddit_hot() {
-    var reddit = $('#reddit').val();
+  function init_reddit_hot(reddit, reddit_mode) {
     var container = $('#in_view_image_container');
     container.html('');
 
+    if (!jQuery.inArray(reddit_mode, reddit_modes)) {
+      reddit_mode = 'hot'
+    }
+
     if (reddit) {
-      var url = 'http://www.reddit.com/r/' + reddit + '/hot.json';
+      var url = 'http://www.reddit.com/r/' + reddit + '/' + reddit_mode + '.json';
       container.data('reddit_url', url);
       var row = $('<div id="reddit_start" class="in_view_row"></div>');
       row.data('reddit_after', null);
       row.appendTo(container);
       lookup_reddit_hot(row, null);
+      $('#reddit_search_label').text('Searching: ').append(reddit).append('/').append(reddit_mode);
     }
   }
 
   //Install a handler to run the search reset
   $('#reddit_search').submit(function (e) {
       e.preventDefault();
-      init_reddit_hot();
+      clear_error();
+      var reddit = $('#reddit').val();
+      var reddit_mode = $('#reddit_mode').val();
+      if (reddit) {
+        init_reddit_hot(reddit, reddit_mode);
+      }
+      else {
+        set_error('Please enter a reddit name');
+      }
+
     }
   );
+
+  function clear_error() {
+    $('#reddit_error').hide().text('');
+  }
+
+  function set_error(message) {
+    $('#reddit_error').text(message).show();
+  }
 
   //Handle inview events to support loading the reddits when they come in to view
   $('#in_view_image_container').on('inview', 'div.in_view_row', function (event, isInView, visiblePartX, visiblePartY) {
@@ -64,6 +94,9 @@ $(document).ready(function () {
         dataType: "json",
         url: my_url,
         data: data_params,
+        error: function (request, status, error) {
+          set_error('Unable to retrieve data from ' + my_url + '');
+        },
         success: function (data) {
           var completed_page_div = create_image_elements(data, page_div);
           if (completed_page_div.length == 1) {

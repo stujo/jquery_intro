@@ -10,20 +10,49 @@
     .in_view_image {
         padding: 5px;
         border-bottom: 1px solid #dddddd;
-        overflow: auto
+        overflow: auto;
+        font-size: 2em;
+        line-height: 1.2em;
     }
 
     .in_view_image img {
         margin: 5px;
         float: right;
+        width: 100px;
+        border: 1px solid #dddddd;
+    }
+
+    #reddit_error {
+        font-weight: bold;
+        color: coral;
+        display: none;
+        border-radius: 4px;
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid coral;
+    }
+
+    #reddit_search_label {
+        font-weight: bold;
     }
 
 </style>
 
 <form class="form-search" id="reddit_search" action="#" method="get">
     <input id='reddit' type="text" placeholder="reddit" class="input-medium search-query">
+    <select id='reddit_mode'>
+        <option>rising</option>
+        <option>hot</option>
+        <option>new</option>
+        <option>top</option>
+        <option>controversial</option>
+        <option>gilded</option>
+    </select>
     <button type="submit" class="btn">Search</button>
 </form>
+
+<div id="reddit_error"></div>
+<div id="reddit_search_label"></div>
 
 <hr/>
 
