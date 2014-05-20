@@ -4,14 +4,16 @@ $(document).ready(function () {
 
   var page_count = 0;
 
-  var reddit_modes = ['hot', 'rising', 'new'];
+  var reddit_modes = [];
 
-  var mode_select = $("#reddit_mode");
+  var default_reddit = 'aww';
 
   $('#reddit_mode option').each(function(ele) {
 
     reddit_modes.push(ele.val);
   })
+
+  $('#reddit').val(default_reddit);
 
   //Reset the infinite search
   function init_reddit_hot(reddit, reddit_mode) {
