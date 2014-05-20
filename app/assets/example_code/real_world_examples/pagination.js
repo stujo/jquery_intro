@@ -58,6 +58,14 @@ $(document).ready(function () {
     container.removeClass('github_loading');
   }
 
+  function clear_pagination(pagination) {
+    if (pagination.length > 0) {
+      pagination.find('.github_pagination_prev').addClass('disabled').data('page', '');
+      pagination.find('.github_pagination_current').addClass('disabled').find('a').html('&nbsp;');
+      pagination.find('.github_pagination_next').addClass('disabled').data('page', '');
+    }
+  }
+
   function update_pagination(pagination, data, page_params) {
     if (pagination.length > 0) {
 
@@ -88,7 +96,9 @@ $(document).ready(function () {
   function refresh_user_results(container, url, page_number, q) {
     data_params = setup_search(container, url, page_number, q);
 
+    var pagination_div = $('.github_pagination');
     clear_error();
+    clear_pagination(pagination_div);
     $.ajax({
       dataType: "json",
       url: url,
@@ -98,7 +108,7 @@ $(document).ready(function () {
       },
       success: function (data) {
         display_search_results(container, data);
-        update_pagination($('.github_pagination'), data, data_params);
+        update_pagination(pagination_div, data, data_params);
       }
     });
   }
