@@ -133,19 +133,27 @@ $(document).ready(function () {
   function refresh_user_results(container, url, page_number, q) {
     data_params = setup_search(container, url, page_number, q);
 
+
+    var requestDataType = "jsonp"
+
     var pagination_div = $('.github_pagination');
     clear_error();
     clear_pagination(pagination_div);
     $.ajax({
-      dataType: "json",
+      dataType: requestDataType,
       url: url,
       data: data_params,
       error: function (request, status, error) {
         set_error('Unable to retrieve data from ' + url + ' : ' + request.responseJSON.message);
       },
       success: function (data) {
-        display_search_results(container, data);
-        update_pagination(pagination_div, data, data_params);
+        var responseData = data;
+        if(requestDataType == 'jsonp')
+        {
+          responseData = data.data;
+        }
+        display_search_results(container, responseData);
+        update_pagination(pagination_div, responseData, data_params);
       }
     });
   }
