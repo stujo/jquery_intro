@@ -134,7 +134,8 @@ $(document).ready(function () {
     data_params = setup_search(container, url, page_number, q);
 
 
-    var requestDataType = "jsonp"
+    // Break out jsonp setting for clarity and use in handler
+    var requestDataType = "jsonp"; // 'json' is another option
 
     var pagination_div = $('.github_pagination');
     clear_error();
@@ -147,6 +148,7 @@ $(document).ready(function () {
         set_error('Unable to retrieve data from ' + url + ' : ' + request.responseJSON.message);
       },
       success: function (data) {
+        // Jsonp wraps the data in another level
         var responseData = data;
         if(requestDataType == 'jsonp')
         {
