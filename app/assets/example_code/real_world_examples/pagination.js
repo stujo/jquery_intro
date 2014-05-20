@@ -6,7 +6,7 @@ $(document).ready(function () {
 
   // Default Search Data
   var github_user_search_url = 'https://api.github.com/search/users';
-  var github_pagination_data = {'q': default_q, 'page': 1, 'per_page': 5 };
+  var github_pagination_data = {'page': 1, 'per_page': 5 };
 
   $('#github_q').val(default_q);
 
@@ -17,6 +17,38 @@ $(document).ready(function () {
 
   function set_error(message) {
     $('#github_error').text(message).show();
+  }
+
+  // From http://stackoverflow.com/questions/7731778/jquery-get-query-string-parameters
+  function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)",
+      regex = new RegExp(regexS),
+      results = regex.exec(window.location.href);
+    if (results == null) {
+      return "";
+    } else {
+      return decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+  }
+
+  function search_params() {
+    var data_params = $.extend({}, github_pagination_data);
+
+    var page_number = parseInt(getParameterByName('page'));
+    if (!isNaN(page_number)) {
+      data_params['page'] = page_number;
+    }
+    var per_page = parseInt(getParameterByName('per_page'));
+    if (!isNaN(per_page)) {
+      data_params['per_page'] = per_page;
+    }
+    var q = getParameterByName('q');
+    if (q) {
+      data_params['q'] = q;
+    }
+
+    return data_params;
   }
 
   function setup_search(container, url, page_number, q) {
@@ -30,9 +62,14 @@ $(document).ready(function () {
     container.data('github_url', url);
     container.data('github_page', page_number);
     container.data('github_q', q);
-    var data_params = $.extend({}, github_pagination_data);
+
+    var data_params = search_params();
     data_params['q'] = container.data('github_q');
     data_params['page'] = container.data('github_page');
+
+    // Change the URL in the Browser
+    history.pushState({}, '', '?' + $.param(data_params));
+
     return data_params;
   }
 
@@ -114,12 +151,12 @@ $(document).ready(function () {
   }
 
   //Reset the search
-  function init_github_user_search(github_q) {
+  function init_github_user_search(github_q, page_number) {
     var container = $('#github_pagination_container');
     container.html('');
 
     if (github_q) {
-      refresh_user_results(container, github_user_search_url, 1, github_q);
+      refresh_user_results(container, github_user_search_url, page_number, github_q);
     }
   }
 
@@ -153,11 +190,19 @@ $(document).ready(function () {
       clear_error();
       var github_q = $('#github_q').val();
       if (github_q) {
-        init_github_user_search(github_q);
+        init_github_user_search(github_q, 1);
       }
       else {
         set_error('Please enter a github username');
       }
     }
   );
+
+  // Run Search if URL Params Are Provided
+  var initial_params = search_params();
+  if (initial_params['q']) {
+    $('#github_q').val(initial_params['q']);
+    init_github_user_search(initial_params['q'],initial_params['page']);
+  }
+
 });
